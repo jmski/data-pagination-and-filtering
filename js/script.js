@@ -20,8 +20,8 @@ function showPage ( list,page ) {
   const startIndex = ( page * 9 ) - 9;
   const endIndex = ( page * 9 );
 
-// set innerHTML property to studentList to an empty string
-studentList.innerHTML = ' ';
+  // set innerHTML property to studentList to an empty string
+  studentList.innerHTML = ' ';
 
   // loop over the length of the `list` parameter
   for ( let i = 0; i < list.length; i++) {
@@ -54,44 +54,32 @@ function addPagination( list ) {
 
   // create a variable to calculate the number of pages needed
   let numOfPages = Math.ceil(list.length / 9);
-
   // select the element with a class of `link-list` and assign it to a variable
   const linkList = document.querySelector('.link-list');
-
   // set the innerHTML property of the variable you just created to an empty string
    linkList.innerHTML = ' ';
-
   // loop over the number of pages needed
   for (let i = 1; i <= numOfPages; i++) {
-
     // create the elements needed to display the pagination button
-    const button = `
-      <li>
-        <button type="button">1</button>
-      </li>`;
-      
+    const buttonLink = `<li><button type="button">${i}</button></li>`;
     //insert into DOM
-    linkList.insertAdjacentHTML( 'beforeend', linkList );
+    linkList.insertAdjacentHTML( 'beforeend', buttonLink );
   }
-  // give the first pagination button a class of "active"
-  linkList.querySelector( 'button' );
+  // select first button and set its class to active
+  linkList.querySelector( 'button' ).className = 'active';
 
   // create an event listener on the `link-list` element
   linkList.addEventListener ( 'click', ( event ) => {
     // if the click target is a button:
     if ( event.target.tagName === 'BUTTON' ) {
-  
       // select the first element with active class then set className to empty string
       linkList.document.querySelector( '.active' );
-
       // remove the "active" class from the previous button
       linkList.className = ' ';
-
       // add the active class to the clicked button
       event.target.className = 'active';
-
       // call the showPage function passing the `list` parameter and page to display as arguments
-      showPage(list, textContent);
+      showPage(list, event.target.textContent);
     }
 
   });
