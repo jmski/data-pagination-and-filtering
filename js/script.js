@@ -13,26 +13,11 @@ FSJS Project 2 - Data Pagination and Filtering
 //global variables
 const studentList = document.querySelector( '.student-list' ); //Select UL element with class student-list
 
-// this function will create the search bar field in the header
-function createSearchBar() {
-  const header = document.querySelector('.header');   // reference & put the search bar in header  (moved to global)
-
-  //create DOM elements to display using template literals
-  let searchBar = `
-  <label for="search" class="student-search">
-    <input id="search" placeholder="Search by name">
-    <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
-  </label>`;
-  header.insertAdjacentHTML('beforeend', searchBar); // insert into DOM
-}
-
 // this function will create and insert/append the elements needed to display a "page" of nine students
 function showPage ( list,page ) {
   // create two variables which will represent the index for the first and last student on the page
   const startIndex = ( page * 9 ) - 9;
   const endIndex = ( page * 9 );
-
-  // const studentList = document.querySelector( '.student-list' ); //Select UL element with class student-list (moved to global)
 
   // set innerHTML property to studentList to an empty string
   studentList.innerHTML = ' ';
@@ -89,24 +74,64 @@ addPagination(data);
 createSearchBar();
 searchStudents(data);
 
+// this function will create the search bar field in the header
+function createSearchBar() {
+  const header = document.querySelector('.header');   // reference & put the search bar in header  (moved to global)
+
+  //create DOM elements to display using template literals
+  let searchBar = `
+  <label for="search" class="student-search">
+    <input id="search" placeholder="Search by name">
+    <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+  </label>`;
+  header.insertAdjacentHTML('beforeend', searchBar); // insert into DOM
+}
 
 function searchStudents ( list ) {
   const results = [ ];
   const searchInput = document.querySelector('#search');
 
-searchInput.addEventListener('keyup', (e) => {
-  const input = e.target.value.toLowerCase();
-  for (let i = 0; i < list.length; i++) {
-    const studentName = list[i].name.first.toLowerCase() + ' ' + list[i].name.last.toLowerCase();
-      if ( studentName.includes(input)) {
-        results.push(list[i]);
-        showPage(results, 1);
-        addPagination(results);
+  searchInput.addEventListener('keyup', (e) => {
+    const input = e.target.value.toLowerCase();
+    for ( let i = 0; i < list.length; i++ ) {
+      let student = list[i];
+      const studentName = student.name.first.toLowerCase() + ' ' + student.name.last.toLowerCase();
+      if (studentName.includes(input)) {
+        results.push(studentName);
+        console.log(input);
+        return results;
       }
-    console.log(studentName); 
-  }
-  //console.log(studentName);  // to check for the whole list of student names
-  //console.log(input); // to test user input
-});
+      showPage(results, 1);
+    }
+
+
+
+
+
+
+
+
+
+//     for ( let student in data) {
+//       const studentName = student.name.first.toLowerCase() + ' ' + student.name.last.toLowerCase();
+//         if ( studentName.includes(input)) {
+//           results.push(student);
+//           console.log(input);
+//           return results;
+//         }
+// //        // if ( )
+// //           showPage(results, 1);
+// //           addPagination(results);
+// //         } 
+        
+        
+// //         if ( results.length == 0 ) {
+// //           studentList.textContent = `<h1>Sorry no matches were found. </h1>`
+// //         }
+// //       console.log(studentName); 
+//     }
+//   //console.log(studentName);  // to check for the whole list of student names
+//   //console.log(input); // to test user input
+  });
 
 }
