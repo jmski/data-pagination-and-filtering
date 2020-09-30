@@ -10,20 +10,19 @@ FSJS Project 2 - Data Pagination and Filtering
  * - Jon
 */
 
-//global variables
+//GLOBAL VARIABLES
 const studentList = document.querySelector( '.student-list' ); //Select UL element with class student-list
 
 // this function will create and insert/append the elements needed to display a "page" of nine students
 function showPage ( list,page ) {
-  // create two variables which will represent the index for the first and last student on the page
-  const startIndex = ( page * 9 ) - 9;
-  const endIndex = ( page * 9 );
+  const startIndex = ( page * 9 ) - 9; //first student on page
+  const endIndex = ( page * 9 ); //last student on page
   studentList.innerHTML = ' ';   // set innerHTML property to studentList to an empty string
 
   // loop over the length of the `list` parameter
   for ( let i = 0; i < list.length; i++) {
+    let student = list[i];
     if ( i >= startIndex && i < endIndex ) {
-        let student = list[i];
 
         // create DOM elements to display using template literals
         let html = `
@@ -97,7 +96,7 @@ function searchStudents ( list ) {
       }
       if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]);
-      } else if ( searchInput.length === 0 ) {
+      } else if ( searchInput.length == 0 && searchInput != student ) {
         studentList.innerHTML =`<h1>Sorry no matches were found</h1>`;
       }
     }
@@ -106,7 +105,6 @@ function searchStudents ( list ) {
   });
 
   searchButton.addEventListener('click', (e) => {
-    e.preventDefault();
     const input = searchInput.value;
     results = [ ];
       for (let i = 0; i < list.length; i++ ) {
@@ -115,20 +113,14 @@ function searchStudents ( list ) {
         const lastName = student.name.last.toLowerCase();
         if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]);
-        } else if (results.length === 0 ) {
+        } else if (results.length == 0 && searchInput != student ) {
             studentList.innerHTML = `<h1>Sorry no matches were found</h1>`;
-           } 
+          } 
        }
     showPage(results,1);
     addPagination(results);
-
-    if (searchInput.value == 0) {
-      showPage(data,1);
-      addPagination(data);
-    }
   });
 }
-
 
 // call functions
 showPage(data,1);
