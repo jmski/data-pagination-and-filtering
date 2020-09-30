@@ -95,43 +95,18 @@ function searchStudents ( list ) {
     const input = e.target.value.toLowerCase();
     for ( let i = 0; i < list.length; i++ ) {
       let student = list[i];
-      const studentName = student.name.first.toLowerCase() + ' ' + student.name.last.toLowerCase();
-      if (studentName.includes(input)) {
-        results.push(studentName);
-        console.log(input);
+      const firstName = student.name.first.toLowerCase();
+      const lastName =  student.name.last.toLowerCase();
+      if ( firstName.includes(input) || lastName.includes(input) ) {
+        results.push(list[i]);
         return results;
+      } else if ( results.length === 0 && searchInput.value.length != 0) {
+        studentList.innerHTML =`<h1>Sorry no matches were found</h1>`;
+        linkList.innerHTML =' ';
       }
       showPage(results, 1);
+      addPagination(results);
     }
-
-
-
-
-
-
-
-
-
-//     for ( let student in data) {
-//       const studentName = student.name.first.toLowerCase() + ' ' + student.name.last.toLowerCase();
-//         if ( studentName.includes(input)) {
-//           results.push(student);
-//           console.log(input);
-//           return results;
-//         }
-// //        // if ( )
-// //           showPage(results, 1);
-// //           addPagination(results);
-// //         } 
-        
-        
-// //         if ( results.length == 0 ) {
-// //           studentList.textContent = `<h1>Sorry no matches were found. </h1>`
-// //         }
-// //       console.log(studentName); 
-//     }
-//   //console.log(studentName);  // to check for the whole list of student names
-//   //console.log(input); // to test user input
   });
 
 }
