@@ -18,31 +18,28 @@ function showPage ( list,page ) {
   // create two variables which will represent the index for the first and last student on the page
   const startIndex = ( page * 9 ) - 9;
   const endIndex = ( page * 9 );
-
-  // set innerHTML property to studentList to an empty string
-  studentList.innerHTML = ' ';
+  studentList.innerHTML = ' ';   // set innerHTML property to studentList to an empty string
 
   // loop over the length of the `list` parameter
   for ( let i = 0; i < list.length; i++) {
-  // 
-      if ( i >= startIndex && i < endIndex ) {
-         let student = list[i];
+    if ( i >= startIndex && i < endIndex ) {
+        let student = list[i];
 
-         // create DOM elements to display using template literals
-         let html = `
-         <li class="student-item cf">
+        // create DOM elements to display using template literals
+        let html = `
+          <li class="student-item cf">
             <div class="student-details">
-               <img class="avatar" src="${student.picture.large}" alt="Profile Picture">
-               <h3>${student.name.first} ${student.name.last}</h3>
-               <span class="email">${student.email}</span>
+                <img class="avatar" src="${student.picture.large}" alt="Profile Picture">
+                <h3>${student.name.first} ${student.name.last}</h3>
+                <span class="email">${student.email}</span>
             </div>
             <div class="joined-details">
-               <span class="date">Joined ${student.registered.date}</span>
+                <span class="date">Joined ${student.registered.date}</span>
             </div>
-         </li>`;
-       studentList.insertAdjacentHTML('beforeend', html );       // insert into DOM
-      }
-   }
+          </li>`;
+      studentList.insertAdjacentHTML('beforeend', html );       // insert into DOM
+    }
+  }
 }
 
 //this function will create and insert/append the elements needed for the pagination buttons
@@ -64,7 +61,7 @@ function addPagination( list ) {
       linkList.querySelector('.active').className = ' '; //Select first element with active class then remove active class
       target.className = 'active';       // add the active class to the clicked button
       showPage(list, target.textContent);       // call the showPage function passing the `list` parameter and page to display as arguments
-     }
+    }
   });
 }
 
@@ -74,18 +71,20 @@ function createSearchBar() {
 
   //create DOM elements to display using template literals
   let searchBar = `
-  <label for="search" class="student-search">
-    <input id="search" placeholder="Search by name">
-    <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
-  </label>`;
+    <label for="search" class="student-search">
+      <input id="search" placeholder="Search by name">
+      <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+    </label>`;
   header.insertAdjacentHTML('beforeend', searchBar); // insert into DOM
 }
 
 function searchStudents ( list ) {
   let results = [ ];
   const searchInput = document.querySelector('#search');
+  const searchButton = document.querySelector('button');
+
   searchInput.addEventListener('keyup', (e) => {
-    const input = e.target.value.toLowerCase();
+    const input = e.target.value.toLowerCase(); 
     results = [ ];
     for ( let i = 0; i < list.length; i++ ) {
       let student = list[i];
@@ -96,18 +95,38 @@ function searchStudents ( list ) {
       } else {
         list[i].display = 'block';
       }
-
       if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]);
-      } else if ( results.length === 0 && searchInput.value.length != 0) {
+      } else if ( results.length === 0 ) {
         studentList.innerHTML =`<h1>Sorry no matches were found</h1>`;
       }
     }
       showPage(results, 1);
       addPagination(results);
       console.log(input);
-});
+  });
+
+  searchButton.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = searchInput.value;
+    results = [ ];
+      for (let i = 0; i < list.length; i++ ) {
+        let student = list[i];
+        const firstName = student.name.first.toLowerCase();
+        const lastName = student.name.last.toLowerCase();
+        if ( firstName.includes(input) || lastName.includes(input) ) {
+        results.push(list[i]);
+        } else if (results.length === 0 ) {
+            studentList.innerHTML = `<h1>Sorry no matches were found</h1>`;
+           } 
+       }
+    showPage(results,1);
+    addPagination(results);
+    console.log(input);
+    console.log(results);
+  });
 }
+
 
 // call functions
 showPage(data,1);
