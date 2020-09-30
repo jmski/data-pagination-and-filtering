@@ -97,16 +97,15 @@ function searchStudents ( list ) {
       }
       if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]);
-      } else if ( results.length === 0 ) {
+      } else if ( searchInput.length === 0 ) {
         studentList.innerHTML =`<h1>Sorry no matches were found</h1>`;
       }
     }
       showPage(results, 1);
       addPagination(results);
-      console.log(input);
   });
 
-  searchButton.addEventListener('submit', (e) => {
+  searchButton.addEventListener('click', (e) => {
     e.preventDefault();
     const input = searchInput.value;
     results = [ ];
@@ -122,8 +121,11 @@ function searchStudents ( list ) {
        }
     showPage(results,1);
     addPagination(results);
-    console.log(input);
-    console.log(results);
+
+    if (searchInput.value == 0) {
+      showPage(data,1);
+      addPagination(data);
+    }
   });
 }
 
