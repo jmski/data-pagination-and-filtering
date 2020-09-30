@@ -57,22 +57,16 @@ function addPagination( list ) {
   // select first button and set its class to active
   const firstButton = document.querySelector( '.link-list > li > button' );
   firstButton.className = 'active';
-
   // create an event listener on the `link-list` element
-  linkList.addEventListener ( 'click', ( event ) => { 
-    if ( event.target.tagName === 'BUTTON' ) {
+  linkList.addEventListener ( 'click', (event) => { 
+    const target = event.target;
+    if ( target.tagName === 'BUTTON' ) {
       linkList.querySelector('.active').className = ' '; //Select first element with active class then remove active class
-      event.target.className = 'active';       // add the active class to the clicked button
-      showPage(list, event.target.textContent);       // call the showPage function passing the `list` parameter and page to display as arguments
+      target.className = 'active';       // add the active class to the clicked button
+      showPage(list, target.textContent);       // call the showPage function passing the `list` parameter and page to display as arguments
      }
   });
 }
-
-// call functions
-showPage(data,1);
-addPagination(data);
-createSearchBar();
-searchStudents(data);
 
 // this function will create the search bar field in the header
 function createSearchBar() {
@@ -88,25 +82,35 @@ function createSearchBar() {
 }
 
 function searchStudents ( list ) {
-  const results = [ ];
+  let results = [ ];
   const searchInput = document.querySelector('#search');
-
   searchInput.addEventListener('keyup', (e) => {
     const input = e.target.value.toLowerCase();
+    results = [ ];
     for ( let i = 0; i < list.length; i++ ) {
       let student = list[i];
       const firstName = student.name.first.toLowerCase();
       const lastName =  student.name.last.toLowerCase();
+      if (input !== list[i]) {
+        list[i].display = 'none';
+      } else {
+        list[i].display = 'block';
+      }
+
       if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]);
-        return results;
       } else if ( results.length === 0 && searchInput.value.length != 0) {
         studentList.innerHTML =`<h1>Sorry no matches were found</h1>`;
-        linkList.innerHTML =' ';
       }
+    }
       showPage(results, 1);
       addPagination(results);
-    }
-  });
-
+      console.log(input);
+});
 }
+
+// call functions
+showPage(data,1);
+addPagination(data);
+createSearchBar();
+searchStudents(data);
