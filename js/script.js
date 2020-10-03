@@ -67,7 +67,6 @@ function addPagination( list ) {
 // this function will create the search bar field in the header
 function createSearchBar() {
   const header = document.querySelector('.header');   // reference & put the search bar in header  (moved to global)
-
   //create DOM elements to display using template literals
   let searchBar = `
     <label for="search" class="student-search">
@@ -76,46 +75,46 @@ function createSearchBar() {
     </label>`;
   header.insertAdjacentHTML('beforeend', searchBar); // insert into DOM
 }
-
+// this function will search for student names based on value inside the search bar
 function searchStudents ( list ) {
-  let results = [ ];
+  let results = [ ]; // stores the results here
   const searchInput = document.querySelector('#search');
   const searchButton = document.querySelector('button');
 
+  // keyup event handler 
   searchInput.addEventListener('keyup', (e) => {
-    const input = e.target.value.toLowerCase(); 
-    results = [ ];
+    const input = e.target.value.toLowerCase(); // stores the value typed inside the search bar
+    results = [ ]; // clear the array
     for ( let i = 0; i < list.length; i++ ) {
       let student = list[i];
       const firstName = student.name.first.toLowerCase();
       const lastName =  student.name.last.toLowerCase();
-      if (input !== list[i]) {
-        list[i].display = 'none';
-      } else {
-        list[i].display = 'block';
-      }
       if ( firstName.includes(input) || lastName.includes(input) ) {
-        results.push(list[i]);
-      } else if ( searchInput.length == 0 && searchInput != student ) {
-        studentList.innerHTML =`<h1>Sorry no matches were found</h1>`;
-      }
-    }
+        results.push(list[i]); // update the results array
+      } else if ( searchInput.length == 0 ) {   // if there are no matches display error message
+          studentList.innerHTML = `<h1>no results were found</h1>`; 
+        } else if ( searchInput == null  ) {    // if there is no input display student list
+          studentList.innerHTML = studentList;
+    } 
+   }
       showPage(results, 1);
       addPagination(results);
   });
-
+  // click search bar event handler
   searchButton.addEventListener('click', (e) => {
-    const input = searchInput.value;
-    results = [ ];
+    const input = searchInput.value; // stores the value typed inside the search bar
+    results = [ ]; // clear the array
       for (let i = 0; i < list.length; i++ ) {
         let student = list[i];
         const firstName = student.name.first.toLowerCase();
         const lastName = student.name.last.toLowerCase();
         if ( firstName.includes(input) || lastName.includes(input) ) {
-        results.push(list[i]);
-        } else if (results.length == 0 && searchInput != student ) {
-            studentList.innerHTML = `<h1>Sorry no matches were found</h1>`;
-          } 
+        results.push(list[i]); // update the results array
+        } else if ( searchInput.length == 0 ) {   // if there are no matches display error message
+              studentList.innerHTML = `<h1> no results were found</h1>`; 
+          } else if ( searchInput == null  ) {   // if there is no input display student list
+              studentList.innerHTML = studentList;
+        } 
        }
     showPage(results,1);
     addPagination(results);
