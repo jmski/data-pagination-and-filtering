@@ -68,7 +68,7 @@ function addPagination( list ) {
 function createSearchBar() {
   const header = document.querySelector('.header');   // reference & put the search bar in header  (moved to global)
   //create DOM elements to display using template literals
-  let searchBar = `
+  const searchBar = `
     <label for="search" class="student-search">
       <input id="search" placeholder="Search by name">
       <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
@@ -91,14 +91,16 @@ function searchStudents ( list ) {
       const lastName =  student.name.last.toLowerCase();
       if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]); // update the results array
-      } else if ( searchInput.length == 0 ) {   // if there are no matches display error message
-          studentList.innerHTML = `<h1>no results were found</h1>`; 
-        } else if ( searchInput == null  ) {    // if there is no input display student list
-          studentList.innerHTML = studentList;
+        }
+    }
+      if (results.length > 0) {
+          showPage(results, 1);
+          addPagination(results);
+      } else {   // if there are no matches display error message
+          studentList.innerHTML = ' ';
+          const errorMessage = `<h1><center>No results were found</center></h1>`;
+          studentList.insertAdjacentHTML( 'beforeend', errorMessage );
     } 
-   }
-      showPage(results, 1);
-      addPagination(results);
   });
   // click search bar event handler
   searchButton.addEventListener('click', (e) => {
@@ -110,17 +112,18 @@ function searchStudents ( list ) {
         const lastName = student.name.last.toLowerCase();
         if ( firstName.includes(input) || lastName.includes(input) ) {
         results.push(list[i]); // update the results array
-        } else if ( searchInput.length == 0 ) {   // if there are no matches display error message
-              studentList.innerHTML = `<h1> no results were found</h1>`; 
-          } else if ( searchInput == null  ) {   // if there is no input display student list
-              studentList.innerHTML = studentList;
         } 
-       }
-    showPage(results,1);
-    addPagination(results);
-  });
+      } 
+   if ( results.length > 0 ) {
+      showPage(results,1);
+      addPagination(results);
+   } else { 
+      studentList.innerHTML = ' ';
+      const errorMessage = `<h1><center>No results were found</center></h1>`;
+      studentList.insertAdjacentHTML( 'beforeend', errorMessage );
+  }
+});
 }
-
 // call functions
 showPage(data,1);
 addPagination(data);
