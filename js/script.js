@@ -45,7 +45,7 @@ function showPage ( list,page ) {
 function addPagination( list ) {
   let numOfPages = Math.ceil(list.length / 9);   // create a variable to calculate the number of pages needed
   const linkList = document.querySelector('.link-list');   // select the element with a class of `link-list` and assign it to a variable
-   linkList.innerHTML = ' ';   // set the innerHTML property of the variable you just created to an empty string
+   linkList.innerHTML = ' ';   // set the innerHTML property of the variable to an empty string
   for ( let i = 1; i <= numOfPages; i++ ) {   // loop over the number of pages needed
     const button = `<li><button type="button">${i}</button></li>`;     // create the elements needed to display the pagination button
     linkList.insertAdjacentHTML( 'beforeend', button );    //insert into DOM
@@ -98,8 +98,8 @@ function searchStudents ( list ) {
           addPagination(results);
       } else {   // if there are no matches display error message
           studentList.innerHTML = ' ';
-          const errorMessage = `<h1><center>No results were found</center></h1>`;
-          studentList.insertAdjacentHTML( 'beforeend', errorMessage );
+          const errorMessage = `<h1><center>No results were found</center></h1>`; // create DOM elements
+          studentList.insertAdjacentHTML( 'beforeend', errorMessage );  // insert to DOM
     } 
   });
   // click search bar event handler
@@ -119,8 +119,8 @@ function searchStudents ( list ) {
       addPagination(results);
    } else { 
       studentList.innerHTML = ' ';
-      const errorMessage = `<h1><center>No results were found</center></h1>`;
-      studentList.insertAdjacentHTML( 'beforeend', errorMessage );
+      const errorMessage = `<h1><center>No results were found</center></h1>`; // create DOM elements
+      studentList.insertAdjacentHTML( 'beforeend', errorMessage );  // insert to DOM
   }
 });
 }
