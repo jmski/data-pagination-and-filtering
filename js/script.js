@@ -51,8 +51,7 @@ function addPagination( list ) {
     linkList.insertAdjacentHTML( 'beforeend', button );    //insert into DOM
   }
   // select first button and set its class to active
-  const firstButton = document.querySelector( 'button' );
-  firstButton.className = 'active';
+  linkList.querySelectorAll( 'button' )[0].className = 'active';
   // create an event listener on the `link-list` element
   linkList.addEventListener ( 'click', (event) => { 
     const target = event.target;
