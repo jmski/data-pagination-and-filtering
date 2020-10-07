@@ -63,6 +63,10 @@ function addPagination( list ) {
   });
 }
 
+//call functions to display students and buttons
+showPage(data,1);
+addPagination(data);
+
 // this function will create the search bar field in the header
 function createSearchBar() {
   const header = document.querySelector('.header');   // reference & put the search bar in header  (moved to global)
@@ -92,13 +96,14 @@ function searchStudents ( list ) {
         results.push(list[i]); // update the results array
         }
     }
-      if (results.length > 0) {
-          showPage(results, 1);
-          addPagination(results);
-      } else {   // if there are no matches display error message
+      if (results.length == 0) {
           studentList.innerHTML = ' ';
           const errorMessage = `<h1><center>No results were found</center></h1>`; // create DOM elements
           studentList.insertAdjacentHTML( 'beforeend', errorMessage );  // insert to DOM
+          addPagination(results, 1);
+      } else {   // if there are no matches display error message
+          showPage(results, 1);
+          addPagination(results);
     } 
   });
   // click search bar event handler
@@ -113,18 +118,17 @@ function searchStudents ( list ) {
         results.push(list[i]); // update the results array
         } 
       } 
-   if ( results.length > 0 ) {
-      showPage(results,1);
-      addPagination(results);
-   } else { 
-      studentList.innerHTML = ' ';
-      const errorMessage = `<h1><center>No results were found</center></h1>`; // create DOM elements
-      studentList.insertAdjacentHTML( 'beforeend', errorMessage );  // insert to DOM
-  }
+      if (results.length == 0) {
+        studentList.innerHTML = ' ';
+        const errorMessage = `<h1><center>No results were found</center></h1>`; // create DOM elements
+        studentList.insertAdjacentHTML( 'beforeend', errorMessage );  // insert to DOM
+        addPagination(results, 1);
+    } else {   // if there are no matches display error message
+        showPage(results, 1);
+        addPagination(results);
+  } 
 });
 }
 // call functions
-showPage(data,1);
-addPagination(data);
 createSearchBar();
 searchStudents(data);
