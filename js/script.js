@@ -122,7 +122,7 @@ function searchStudents ( list ) {
         studentList.innerHTML = ' ';
         const errorMessage = `<h1><center>No results were found</center></h1>`; // create DOM elements
         studentList.insertAdjacentHTML( 'beforeend', errorMessage );  // insert to DOM
-        addPagination(results, 1);
+        addPagination(results);
     } else {   // if there are no matches display error message
         showPage(results, 1);
         addPagination(results);
